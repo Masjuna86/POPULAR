@@ -1,0 +1,24 @@
+###################################################
+# Mikrotik RouterOS Auto Backup to E-Mail Generator Ros6
+###################################################
+/tool e-mail set address="smtp.gmail.com" from="Bang Jack" password="wvewfprmnymfepdx" port="587" start-tls=yes user="backup.mikrotik.ros@gmail.com"
+/system scheduler rem [find name=BACKUP-TO-EMAIL]
+/system scheduler add interval=7d name=BACKUP-TO-EMAIL on-event="#=======================================================\r\
+\n# Mikrotik RouterOS Auto Backup to E-Mail by buananet.com\r\
+\n#=======================================================\r\
+\n:global date [/system clock get date]\r\
+\n:global d [:pick \$date 4 6]\r\
+\n:global m [:pick \$date 0 3] \r\
+\n:global y [:pick \$date 7 11]\r\
+\n:log warning \"-> Backup To E-Mail Now\"\r\
+\n:global backupfilersc ([/system identity get name] . \"-\" . \"\$m-\$d-\$y\")\r\
+\n/export show-sensitive file=\$backupfilersc\r\
+\n:delay 20s\r\
+\n:log warning \"-> Backup Being E-Mailed\"\r\
+\n/tool e-mail send to=\"jakalintasakses@gmail.com\" subject=([/system identity get name] . \" - \". [/system clock get time] . \" - \" . [/system clock get date] . \"\") from=\"Bang Jack\" file=(\"\$backupfilersc\" . \".rsc\") start-tls=yes\r\
+\n:delay 20s\r\
+\n:log warning \"-> Backup File Remove\"\r\
+\n/file remove (\"\$backupfilersc\" . \".rsc\")\r\
+\n:delay 5s\r\
+\n:log warning \"-> Backup To E-Mail Finished\"\r\
+\n" policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon start-time=startup comment="Backup To E-Mail Generator by buananet.com"
