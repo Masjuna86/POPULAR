@@ -1,7 +1,7 @@
 ###################################################
-# Mikrotik RouterOS Auto Backup to E-Mail Generator ROS7
+# Mikrotik RouterOS Auto Backup to E-Mail Generator ROS 7.13
 ###################################################
-/tool e-mail set address="E-Mail Server" from="E-Mail Title" password="E-Mail Password" port="587" tls=starttls user="E-Mail User"
+/tool e-mail set server="smtp.gmail.com" from="Bang Jack" password="wvewfprmnymfepdx" port="587" tls=starttls user="backup.mikrotik.ros@gmail.com"
 /system scheduler rem [find name=BACKUP-TO-EMAIL]
 /system scheduler add interval=7d name=BACKUP-TO-EMAIL on-event="#=======================================================\r\
 \n# Mikrotik RouterOS Auto Backup to E-Mail by Juna\r\
@@ -15,7 +15,7 @@
 \n/system backup save name=\$backupfile\r\
 \n:delay 20s\r\
 \n:log warning \"-> Backup Being E-Mailed\"\r\
-\n/tool e-mail send to=\"jakalintasakases@gmail.com\" subject=([/system identity get name] . \" - \". [/system clock get time] . \" - \" . [/system clock get date] . \"\") from=\"E-Mail Title\" file=(\"\$backupfile\" . \".backup\") tls=starttls\r\
+\n/tool e-mail send to=\"jakalintasakses@gmail.com\" subject=([/system identity get name] . \" - \". [/system clock get time] . \" - \" . [/system clock get date] . \"\") from=\"Bang Jack\" file=(\"\$backupfile\" . \".backup\") tls=starttls\r\
 \n:delay 20s\r\
 \n:log warning \"-> Backup File Remove\"\r\
 \n/file remove (\"\$backupfile\" . \".backup\")\r\
