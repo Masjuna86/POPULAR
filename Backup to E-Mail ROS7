@@ -1,0 +1,24 @@
+###################################################
+# Mikrotik RouterOS Auto Backup to E-Mail Generator ROS7
+###################################################
+/tool e-mail set address="E-Mail Server" from="E-Mail Title" password="E-Mail Password" port="587" tls=starttls user="E-Mail User"
+/system scheduler rem [find name=BACKUP-TO-EMAIL]
+/system scheduler add interval=7d name=BACKUP-TO-EMAIL on-event="#=======================================================\r\
+\n# Mikrotik RouterOS Auto Backup to E-Mail by Juna\r\
+\n#=======================================================\r\
+\n:global date [/system clock get date]\r\
+\n:global d [:pick \$date 4 6]\r\
+\n:global m [:pick \$date 0 3] \r\
+\n:global y [:pick \$date 7 11]\r\
+\n:log warning \"-> Backup to E-Mail Now\"\r\
+\n:global backupfile ([/system identity get name] . \"-\" . \"\$m-\$d-\$y\")\r\
+\n/system backup save name=\$backupfile\r\
+\n:delay 20s\r\
+\n:log warning \"-> Backup Being E-Mailed\"\r\
+\n/tool e-mail send to=\"jakalintasakases@gmail.com\" subject=([/system identity get name] . \" - \". [/system clock get time] . \" - \" . [/system clock get date] . \"\") from=\"E-Mail Title\" file=(\"\$backupfile\" . \".backup\") tls=starttls\r\
+\n:delay 20s\r\
+\n:log warning \"-> Backup File Remove\"\r\
+\n/file remove (\"\$backupfile\" . \".backup\")\r\
+\n:delay 5s\r\
+\n:log warning \"-> Backup To E-Mail Finished\"\r\
+\n" policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon start-time=startup comment="Backup To E-Mail Generator by Juna"
