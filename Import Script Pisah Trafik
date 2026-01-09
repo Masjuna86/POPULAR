@@ -8,7 +8,7 @@
 
 # Streaming
 /tool fetch url="https://raw.githubusercontent.com/Masjuna86/Pisah-Trafik/refs/heads/main/Streaming.rsc" dst-path="Streaming.rsc"
-/import file-name="Streaming"
+/import file-name="Streaming.rsc"
 /file remove "Streaming.rsc"
 /routing table add name="To-Streaming" fib comment="Route by Juna"
 /ip route add check-gateway=ping distance=1 gateway="192.168.100.1" routing-table="To-Streaming" comment="Route by Juna"
