@@ -13,3 +13,21 @@
 /routing table add name="To-Streaming" fib comment="Route by Juna"
 /ip route add check-gateway=ping distance=1 gateway="192.168.100.1" routing-table="To-Streaming" comment="Route by Juna"
 /ip firewall mangle add action=mark-routing chain=prerouting src-address-list=LOCAL-IP dst-address-list="Streaming" new-routing-mark="To-Streaming" comment="Streaming" passthrough=no place-before=*0
+
+# WhatsApp
+/tool fetch url="https://raw.githubusercontent.com/Masjuna86/Pisah-Trafik/refs/heads/main/WhatsApp.rsc" dst-path="WhatsApp.rsc"
+/import file-name="WhatsApp.rsc"
+/file remove "WhatsApp.rsc"
+/routing table add name="To-WhatsApp" fib comment="Route by Juna"
+/ip route add check-gateway=ping distance=1 gateway="192.168.2.1" routing-table="To-WhatsApp" comment="Route by Juna"
+/ip firewall mangle rem [find comment="WhatsApp"]
+/ip firewall mangle add action=mark-routing chain=prerouting src-address-list=LOCAL-IP dst-address-list="WhatsApp" new-routing-mark="To-WhatsApp" comment="WhatsApp" passthrough=no place-before=*0
+
+
+
+
+
+
+
+
+
